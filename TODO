@@ -1,0 +1,15 @@
+
+Global:
+  ☐ Implement local storage (https://github.com/RobinCK/vue-ls) @midterm @critical 
+  ☐ Error messages and logic - when connecting to core instance, when receiving data from core etc @shortterm @high 
+  ☐ show number of apps available @shortterm @high 
+  ☐ create app(s) @longterm @low   
+  ☐ change the code textbox with codemirror/monaco. What are the benefits and performance implications @midterm @high   
+  ☐ spend some time on the design ... overall
+  
+Investigate/Think:
+  ☐ re-think the tables-and-fields feature @longterm @low 
+  ☐ think about how to handle shortcuts - navigate between apps, notes and in-note (run, cancel, move up/down, delete etc), collapse/expand all etc @shortterm @high 
+  ☐ think about how(if) to use url parameters
+  ☐ what permanent data storage can be used and how. Server component? Mongo? Security? Multi-user? etc.
+  ☐ how to ship everything as containers (incuding the server side and database)
