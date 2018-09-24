@@ -5,7 +5,8 @@ Work:
   ☐ show number of apps available @shortterm @high 
   ☐ create app(s) @longterm @low   
   ✔ change the code textbox with `codemirror`/`monaco`. What are the benefits and performance implications @midterm @high @done(18-09-24 13:24)  
-  ☐ spend some time on the design ... overall  
+  ☐ spend some time on the design ... overall
+    ☐ check the responsiveness (doesn't seems to work)
   
 Investigate/Think:
   ☐ re-think the tables-and-fields feature @longterm @low 

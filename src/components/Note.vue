@@ -23,8 +23,9 @@
                 <MonacoEditor ref="editor"
                           class="editor"
                           style="width: 100%"
+                          placeholder="<div>Hello Qlik!</div>"
                           value="1233123123"
-                          language="qlik"
+                          language="sql"
                           :options=options
                           :value=note.code
                           v-on:change="codeChange"
@@ -89,7 +90,10 @@ export default {
         //https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditoroptions.html
         lineNumbers: true,
         contextmenu: false,
-        fontFamily: "Hack"
+        fontFamily: "Hack",
+        minimap: {
+          enabled: false
+        }
       }
     };
   },
