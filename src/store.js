@@ -39,7 +39,7 @@ export default new Vuex.Store({
       {
         id: 1,
         serverId: 1,
-        appId: '/home/nobody/Qlik/Sense/Apps/reloadapp.qvf',
+        appId: '/docs/Consumer Sales.qvf',
         code: 'sum(1)',
         title: 'My new expression',
         expanded: true

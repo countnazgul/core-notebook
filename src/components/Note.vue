@@ -16,10 +16,21 @@
               <md-button v-on:click="remove" class="md-icon-button md-accent delete-note" title="Remove">
                 <md-icon><span class="lui-icon  lui-icon--remove lui-icon--large" aria-hidden="true" ></span></md-icon>
               </md-button>              
-              <md-field class="text-note">
-                <!-- <label>{{title}}</label> -->
+              <!-- <md-field class="text-note">
                 <md-textarea v-model="note.code" class="text-code"></md-textarea>
-              </md-field>
+              </md-field> -->
+              <md-field class="text-note">
+                <MonacoEditor ref="editor"
+                          class="editor"
+                          style="width: 100%"
+                          value="1233123123"
+                          language="qlik"
+                          :options=options
+                          :value=note.code
+                          v-on:change="codeChange"
+                          v-on:keydown="keyPressed"
+                        />
+                </md-field>  
             </div>
             <md-field>      
               <label>Result</label>
@@ -37,6 +48,8 @@
           </md-list>
         </md-list-item>
       </md-list>
+
+    
 
       <!-- <md-field>
         <label>{{title}}</label>
@@ -58,15 +71,26 @@
 </template>
 
 <script>
+import MonacoEditor from "vue-monaco";
+
 export default {
   name: "Note",
   props: ["note", "liveDoc"],
+  components: {
+    MonacoEditor
+  },
   data: function() {
     return {
       result: "",
       title: "Expression",
       expandSingle: false,
-      expanded: true
+      expanded: true,
+      options: {
+        //https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditoroptions.html
+        lineNumbers: true,
+        contextmenu: false,
+        fontFamily: "Hack"
+      }
     };
   },
   methods: {
@@ -99,6 +123,21 @@ export default {
         "removeNote",
         _this.note.id
       );
+    },
+    codeChange: async function(newVal) {
+      this.note.code = newVal;
+    },
+    keyPressed: async function(key) {
+      let _this = this;
+
+      // console.log(_this.$refs)
+      // let monaco = _this.$refs.editor.getMonaco();
+      // console.log(_this.$refs.editor);
+      // console.log(monaco);
+
+      if (key.ctrlKey == true && key.keyCode == 3) {
+        _this.run();
+      }
     }
   },
   watch: {
@@ -155,7 +194,7 @@ ul {
 }
 
 .code {
-  height: 120px;;
+  height: 120px;
   display: grid;
   grid-template-columns: 1fr 25fr;
   grid-template-rows: auto auto;
@@ -189,7 +228,6 @@ ul {
   grid-row-end: span 3;
   grid-column: 2;
   padding: 4px !important;
-
 }
 
 .md-field {

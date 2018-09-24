@@ -1,11 +1,11 @@
 
-Global:
+Work:
   ☐ Implement local storage (https://github.com/RobinCK/vue-ls) @midterm @critical 
   ☐ Error messages and logic - when connecting to core instance, when receiving data from core etc @shortterm @high 
   ☐ show number of apps available @shortterm @high 
   ☐ create app(s) @longterm @low   
-  ☐ change the code textbox with codemirror/monaco. What are the benefits and performance implications @midterm @high   
-  ☐ spend some time on the design ... overall
+  ✔ change the code textbox with `codemirror`/`monaco`. What are the benefits and performance implications @midterm @high @done(18-09-24 13:24)  
+  ☐ spend some time on the design ... overall  
   
 Investigate/Think:
   ☐ re-think the tables-and-fields feature @longterm @low 
@@ -13,3 +13,18 @@ Investigate/Think:
   ☐ think about how(if) to use url parameters
   ☐ what permanent data storage can be used and how. Server component? Mongo? Security? Multi-user? etc.
   ☐ how to ship everything as containers (incuding the server side and database)
+  ☐ investigate how to add Qlik as a language for the `monaco` editor (at the moment it defaults to `sql`)
+  ☐ Electron??? @longterm @low 
+
+Priority (Work):
+  ☐ Local Storage
+  ☐ Error handling
+  ☐ Design changes
+
+Priority Investigate:
+  ☐ Keyboard navigation
+  ☐ URL params
+  ☐ Server side
+    ☐ Containers
+    ☐ Database
+  ☐ Monaco/CodeMirror
