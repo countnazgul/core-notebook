@@ -14,6 +14,9 @@ export default {
   name: "Main",
   components: {
     MainHeader
+  },
+  beforeCreate() {
+    this.$store.commit("INIT_STORE");
   }
 };
 </script>
@@ -28,8 +31,6 @@ export default {
   grid-template-rows: 50px calc(100vh - 50px);
 }
 
-
-
 body {
   margin: 0px;
 }
@@ -40,7 +41,7 @@ body {
     url(assets/lui-icons.ttf) format("truetype");
 }
 
-.test {
+/* .test {
   margin: 10px;
-}
+} */
 </style>

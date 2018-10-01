@@ -11,22 +11,25 @@
             <md-button class="md-icon-button" v-on:click="getFields()" md-menu-trigger title="Fields">
               <span class="lui-icon lui-icon--field lui-icon--large" aria-hidden="true"></span>
             </md-button>
-            <md-button v-on:click="collapseAll(false)" class="md-icon-button" title="Collapse all">
+            <md-button v-on:click="collapseAll(false)" class="md-icon-button" title="Collapse All">
               <md-icon><span class="lui-icon lui-icon--arrow-up lui-icon--large" aria-hidden="true"></span></md-icon>
             </md-button>
-            <md-button v-on:click="collapseAll(true)" class="md-icon-button" title="Expand all">
+            <md-button v-on:click="collapseAll(true)" class="md-icon-button" title="Expand All">
               <md-icon><span class="lui-icon lui-icon--arrow-down lui-icon--large" aria-hidden="true"></span></md-icon>
             </md-button>     
             <md-button v-on:click="deleteModalActive = true" class="md-icon-button" title="DELETE ALL">
               <md-icon><span class="lui-icon lui-icon--bin lui-icon--large" aria-hidden="true"></span></md-icon>
-            </md-button>                        
+            </md-button>    
+            <md-button v-on:click="closeDoc" class="md-icon-button" title="Close App">
+              <md-icon><span class="lui-icon lui-icon--close lui-icon--large" aria-hidden="true"></span></md-icon>
+            </md-button>                                    
           </div>
         </md-app-toolbar>
 
 
       <md-app-drawer :md-active.sync="menuVisible" md-persistent="full" >
         <md-toolbar class="md-transparent" md-elevation="0">
-          <span>APPLICATIONS</span>
+          <span class="title">DOCUMENTS</span>
 
           <div class="md-toolbar-section-end">
             <md-button class="md-icon-button md-dense" @click="toggleMenu">
@@ -37,20 +40,24 @@
 
         <md-list>
           <md-list-item v-for="doc in docs" v-bind:key="doc.qDocId" >
-            <span v-on:click="openDoc({qDocId: doc.qDocId, qDocName: doc.qDocName})" class="md-list-item-text pointer">{{doc.qDocName}}</span>
+            <span v-on:click="openDoc({qDocId: doc.qDocId, qDocName: doc.qDocName})" class="md-list-item-text pointer" :class="{ bold: doc.qDocName == liveDocName }" >{{doc.qDocName}}</span>
           </md-list-item>
         </md-list>
       </md-app-drawer>
 
       <md-app-content>
-        <div v-if="liveDoc.id" >
+        <div v-if="liveDoc.id" >           
           <Note v-for="note in notes"  v-bind:key="note.id" :note="note" :liveDoc="liveDoc"></Note>
 
-    <md-button v-on:click="addNote" class="md-fab md-primary md-fab-bottom-right" title="Add Note">
-      <md-icon>add</md-icon>
-    </md-button>
-
+          <md-button v-on:click="addNote" class="md-fab md-primary md-fab-bottom-right" title="Add Note">
+            <md-icon>add</md-icon>
+          </md-button>
         </div>
+
+        <div v-if="loading" >
+          <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
+        </div>
+
       </md-app-content>
 
     </md-app>
@@ -67,8 +74,13 @@
     :adaptive="true"
     :scrollable="false"
     :height="500"
+    @before-close="beforeCloseModal"
     >
-      <tables-and-fields :tablesAndFields="tablesAndFields"></tables-and-fields>
+      <div v-if="fieldsLoading" >
+        <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
+      </div>    
+
+      <tables-and-fields v-if="!fieldsLoading" :tablesAndFields="tablesAndFields"></tables-and-fields>
     </modal>
 
     
@@ -90,6 +102,8 @@ export default {
   data: function() {
     return {
       // docs: [],
+      loading: false,
+      fieldsLoading: true,
       notebook: {},
       notes: [],
       liveDoc: {},
@@ -135,8 +149,23 @@ export default {
     //   let docs = await _this.$store.dispatch("openConnection", _this.server);
     //   _this.docs = docs;
     // },
+    closeDoc: async function() {
+      let _this = this;
+
+      try {
+        _this.liveDoc = {};
+        _this.liveDocName = "";
+        _this.notebook = {};
+        await _this.enigmaInstance.session.close();
+      } catch (e) {
+        console.log(e);
+      }
+    },
     openDoc: async function({ qDocId, qDocName }) {
       let _this = this;
+      _this.loading = true;
+      _this.liveDoc = {};
+      _this.liveDocName = "";
       let d = null;
       _this.notebook = {};
 
@@ -167,7 +196,7 @@ export default {
         _this.liveDoc = d;
         _this.liveDocName = qDocName;
 
-        console.log("doc open", d);
+        // console.log("doc open", d);
       } catch (e) {
         console.log(e);
         // d = await _this.enigmaInstance.global.openDoc(qDocId);
@@ -179,6 +208,7 @@ export default {
         appId: qDocId
       });
 
+      _this.loading = false;
       _this.notes = notes;
       _this.liveDoc = d;
     },
@@ -202,6 +232,7 @@ export default {
     },
     getFields: async function() {
       let _this = this;
+      _this.$modal.show("hello-world");
       // let notes = await _this.$store.dispatch("removeAllNotes", {
       //   serverId: _this.server.id,
       //   appId: _this.liveDoc.id
@@ -227,8 +258,6 @@ export default {
         qIncludeSysVars: true
       });
 
-      
-
       // _this.tablesAndFields = tablesAndFields.qtr
 
       let tablesAndFieldsOrg = [];
@@ -246,12 +275,14 @@ export default {
         }
       }
 
+      _this.fieldsLoading = false
       _this.tablesAndFields = tablesAndFieldsOrg;
       _this.liveDocFields = layout.qFieldList.qItems;
 
-      _this.$modal.show("hello-world");
-
       // console.log(layout)
+    },
+    beforeCloseModal: function() {
+      this.fieldsLoading = true
     }
   },
   watch: {
@@ -279,6 +310,15 @@ ul {
 
 .underline {
   text-decoration: underline;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 16px;
 }
 
 /* .server-content {

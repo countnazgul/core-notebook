@@ -1,12 +1,15 @@
 
 Work:
-  ☐ Implement local storage (https://github.com/RobinCK/vue-ls) @midterm @critical 
-  ☐ Error messages and logic - when connecting to core instance, when receiving data from core etc @shortterm @high 
+  ☐ way to show all notes available or at least per server. this is the case when there are notes available but the app is not avaialble (deleted) @high @midterm 
+  ☐ copy/merge notes from one app to another @high  @shortterm 
+  ☐ deleting server to delete all notes as well? @high @midterm 
   ☐ show number of apps available @shortterm @high 
   ☐ create app(s) @longterm @low   
-  ✔ change the code textbox with `codemirror`/`monaco`. What are the benefits and performance implications @midterm @high @done(18-09-24 13:24)  
   ☐ spend some time on the design ... overall
-    ☐ check the responsiveness (doesn't seems to work)
+    ☐ check the responsiveness (doesn't seems to work)  
+  ✔ Implement local storage (https://github.com/RobinCK/vue-ls) @midterm @critical @done(18-09-30 08:20)
+  ✔ Error messages and logic - when connecting to core instance, when receiving data from core etc @shortterm @high @done(18-10-01 06:07)  
+  ✔ change the code textbox with `codemirror`/`monaco`. What are the benefits and performance implications @midterm @high @done(18-09-24 13:24)  
   
 Investigate/Think:
   ☐ re-think the tables-and-fields feature @longterm @low 
@@ -18,8 +21,11 @@ Investigate/Think:
   ☐ Electron??? @longterm @low 
 
 Priority (Work):
-  ☐ Local Storage
-  ☐ Error handling
+  ✔ Local Storage @done(18-10-01 06:18)
+  ✔ Error handling @done(18-10-01 06:18)
+  ☐ show all notes
+  ☐ copy/merge notes between apps
+  ☐ handle deleting of server
   ☐ Design changes
 
 Priority Investigate:

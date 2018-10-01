@@ -9,7 +9,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    servers: [
+    servers: [],
+    notes: [],
+    servers1: [
       {
         id: 1,
         name: 'Core Local 1',
@@ -35,7 +37,7 @@ export default new Vuex.Store({
       session: {}
     },
     sectionText: '',
-    notes: [
+    notes1: [
       {
         id: 1,
         serverId: 1,
@@ -47,22 +49,38 @@ export default new Vuex.Store({
     ],
   },
   mutations: {
+    INIT_STORE: function (state) {
+      if (localStorage.getItem('servers')) {
+        state.servers = JSON.parse(localStorage.getItem('servers'))
+      }
+
+      if (localStorage.getItem('notes')) {
+        state.notes = JSON.parse(localStorage.getItem('notes'))
+      }
+
+    },
     SET_ENIGMA_INSTANCE: function (state, { global, session }) {
       state.enigmaInstance.global = global
       state.enigmaInstance.session = session
     },
     ADD_NOTE: function (state, n) {
       state.notes.push(n)
+
+      localStorage.setItem('notes', JSON.stringify(state.notes))
     },
     REMOVE_NOTE: function (state, id) {
       state.notes = state.notes.filter(function (n) {
         return n.id != id
       })
+
+      localStorage.setItem('notes', JSON.stringify(state.notes))
     },
     REMOVE_ALL_NOTES: function (state, { serverId, appId }) {
       state.notes = state.notes.filter(function (n) {
         return (n.serverId != serverId && n.appId != appId)
       })
+
+      localStorage.setItem('notes', JSON.stringify(state.notes))
     },
     UPDATE_NOTE: function (state, n) {
       for (let note in state.notes) {
@@ -70,6 +88,8 @@ export default new Vuex.Store({
           note = n
         }
       }
+
+      localStorage.setItem('notes', JSON.stringify(state.notes))
     },
     ADD_SERVER: function (state) {
       state.servers.push({
@@ -78,11 +98,15 @@ export default new Vuex.Store({
         host: '',
         port: ''
       })
+
+      localStorage.setItem('servers', JSON.stringify(state.servers))
     },
     DELETE_SERVER: function (state, server) {
       state.servers = state.servers.filter(function (s) {
         return s.id != server.id
       })
+
+      localStorage.setItem('servers', JSON.stringify(state.servers))
     },
     SET_SECTION: function (state, section) {
       state.sectionText = section
@@ -93,6 +117,8 @@ export default new Vuex.Store({
           s = server
         }
       }
+
+      localStorage.setItem('servers', JSON.stringify(state.servers))
     },
     COLLAPSE_ALL: function (state, { serverId, appId, expanded }) {
       for (let n of state.notes) {
@@ -100,6 +126,8 @@ export default new Vuex.Store({
           n.expanded = expanded
         }
       }
+
+      localStorage.setItem('notes', JSON.stringify(state.notes))
     }
   },
   actions: {
@@ -140,7 +168,7 @@ export default new Vuex.Store({
         commit('SET_ENIGMA_INSTANCE', { global: global, session: session })
         return docs
       } catch (e) {
-        console.log('Something wrong!')
+        // console.log(e)
         return false
       }
     },
@@ -170,7 +198,7 @@ export default new Vuex.Store({
     },
     deleteAll: async function ({ commit }, { serverId, appId }) {
       commit('DELETE_ALL', { serverId, appId, })
-    },    
+    },
   },
   getters: {
     servers: function (state) {

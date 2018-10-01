@@ -16,7 +16,9 @@ import {
   MdMenu,
   MdTable,
   MdCard,
-  MdRipple
+  MdRipple,
+  MdProgress,
+  MdSnackbar
 } from 'vue-material/dist/components'
 import 'vue-material/dist/vue-material.min.css'
 import VModal from 'vue-js-modal'
@@ -37,6 +39,8 @@ Vue.use(MdMenu)
 Vue.use(MdTable)
 Vue.use(MdCard)
 Vue.use(MdRipple)
+Vue.use(MdProgress)
+Vue.use(MdSnackbar)
 
 
 // md-app-toolbar

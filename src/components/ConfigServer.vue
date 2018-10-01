@@ -19,7 +19,8 @@
                 <md-button @click="active = true" class="md-raised md-accent">Delete</md-button>
             </div>
             <div v-if="connect" style="float: right">
-                <md-button v-on:click="openConnection" class="md-raised md-primary">Connect</md-button>
+                <md-progress-spinner v-if="connecting" md-mode="indeterminate" :md-diameter="36" style="margin-top: 5px;"></md-progress-spinner>
+                <md-button v-on:click="openConnection" class="md-raised md-primary" :disabled="connecting">{{label}}</md-button>
             </div>            
         </div>
     </div>
@@ -32,7 +33,11 @@
       md-cancel-text="Cancel"
       @md-cancel="onCancel"
       @md-confirm="deleteServer"      
-    />    
+    />  
+
+    <md-snackbar :md-position="snackbar.position" :md-duration="snackbar.isInfinity ? Infinity : snackbar.duration" :md-active.sync="snackbar.showSnackbar" md-persistent>
+      <span>Error! Connection failed :(</span>
+    </md-snackbar>  
 
   </div>
 </template>
@@ -45,7 +50,15 @@ export default {
   data: function() {
     return {
       active: false,
-      value: null
+      value: null,
+      connecting: false,
+      label: "Connect",
+      snackbar: {
+        position: "center",
+        duration: 4000,
+        showSnackbar: false,
+        isInfinity: false
+      }
     };
   },
   methods: {
@@ -63,12 +76,25 @@ export default {
     },
     openConnection: async function() {
       let _this = this;
+
+      _this.connecting = true;
+      _this.label = "Connecting";
       let docs = await _this.$store.dispatch("openConnection", _this.server);
-      //   _this.docs = docs;
-      _this.$router.push({
-        name: "server",
-        params: { server: _this.server, docs }
-      });
+
+      if (docs == false) {
+        _this.connecting = false;
+        _this.label = "Connect";
+        _this.snackbar.showSnackbar = true
+      } else {
+        //   _this.docs = docs;
+        _this.connecting = false;
+        _this.label = "Connect";
+
+        _this.$router.push({
+          name: "server",
+          params: { server: _this.server, docs }
+        });
+      }
     }
   },
   computed: {}
