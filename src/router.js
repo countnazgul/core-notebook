@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Server from './components/Server.vue'
 import Config from './components/Config.vue'
+import NotesMgmnt from './components/NotesMgmnt.vue'
 
 Vue.use(Router)
 
@@ -24,7 +25,13 @@ export default new Router({
       name: 'config',
       component: Config,
       props: true
-    },    
+    },
+    {
+      path: '/notesmgmnt',
+      name: 'notesmgmnt',
+      component: NotesMgmnt,
+      props: true
+    },
     {
       path: '/about',
       name: 'about',

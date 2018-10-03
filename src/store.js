@@ -11,42 +11,12 @@ export default new Vuex.Store({
   state: {
     servers: [],
     notes: [],
-    servers1: [
-      {
-        id: 1,
-        name: 'Core Local 1',
-        host: 'localhost',
-        port: '9076'
-      },
-      {
-        id: 2,
-        name: 'Core Local 2',
-        host: 'localhost',
-        port: '9076'
-      },
-      {
-        id: 3,
-        name: 'Core Local 3',
-        host: 'localhost',
-        port: '9076'
-      }
-    ],
     enigmaInstance: {
       global: {},
       app: {},
       session: {}
     },
-    sectionText: '',
-    notes1: [
-      {
-        id: 1,
-        serverId: 1,
-        appId: '/docs/Consumer Sales.qvf',
-        code: 'sum(1)',
-        title: 'My new expression',
-        expanded: true
-      }
-    ],
+    sectionText: ''
   },
   mutations: {
     INIT_STORE: function (state) {
@@ -107,6 +77,13 @@ export default new Vuex.Store({
       })
 
       localStorage.setItem('servers', JSON.stringify(state.servers))
+
+      state.notes = state.notes.filter(function (n) {
+        return n.serverId != server.id
+      })
+
+      localStorage.setItem('notes', JSON.stringify(state.notes))
+
     },
     SET_SECTION: function (state, section) {
       state.sectionText = section
@@ -165,6 +142,7 @@ export default new Vuex.Store({
       try {
         let global = await session.open()
         let docs = await global.getDocList()
+        console.log(docs)
         commit('SET_ENIGMA_INSTANCE', { global: global, session: session })
         return docs
       } catch (e) {

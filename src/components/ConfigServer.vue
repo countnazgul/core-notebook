@@ -15,8 +15,16 @@
         </md-field>
         <div class="empty">
             <div v-if="!connect" style="float: right">
-                <md-button v-on:click="saveServer" class="md-raised">Save</md-button>
-                <md-button @click="active = true" class="md-raised md-accent">Delete</md-button>
+                <md-button v-on:click="saveServer" class="md-icon-button" title="Test connection">
+                  <span class="lui-icon  lui-icon--disconnect" aria-hidden="true"></span>
+                </md-button>
+                <md-button v-on:click="saveServer" class="md-icon-button" title="Save">
+                  <span class="lui-icon  lui-icon--save" aria-hidden="true"></span>
+                </md-button>                  
+                <md-button @click="active = true" class="md-icon-button md-accent" title="DELETE">
+                  <span class="lui-icon  lui-icon--bin" aria-hidden="true"></span>
+                </md-button>                                                
+                
             </div>
             <div v-if="connect" style="float: right">
                 <md-progress-spinner v-if="connecting" md-mode="indeterminate" :md-diameter="36" style="margin-top: 5px;"></md-progress-spinner>
@@ -37,7 +45,11 @@
 
     <md-snackbar :md-position="snackbar.position" :md-duration="snackbar.isInfinity ? Infinity : snackbar.duration" :md-active.sync="snackbar.showSnackbar" md-persistent>
       <span>Error! Connection failed :(</span>
-    </md-snackbar>  
+    </md-snackbar>
+
+    <md-snackbar :md-position="snackbar.position" :md-duration="snackbar.isInfinity ? Infinity : snackbar.duration" :md-active.sync="snackbar.showSnackbarTest" md-persistent>
+      <span>Connection ok!</span>
+    </md-snackbar>    
 
   </div>
 </template>
@@ -57,7 +69,8 @@ export default {
         position: "center",
         duration: 4000,
         showSnackbar: false,
-        isInfinity: false
+        isInfinity: false,
+        showSnackbarTest: false
       }
     };
   },
@@ -84,7 +97,7 @@ export default {
       if (docs == false) {
         _this.connecting = false;
         _this.label = "Connect";
-        _this.snackbar.showSnackbar = true
+        _this.snackbar.showSnackbar = true;
       } else {
         //   _this.docs = docs;
         _this.connecting = false;

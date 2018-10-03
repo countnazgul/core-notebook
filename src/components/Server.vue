@@ -170,7 +170,7 @@ export default {
       _this.notebook = {};
 
       try {
-        await _this.enigmaInstance.session.close();
+        let a = await _this.enigmaInstance.session.close();
       } catch (e) {
         console.log(e);
       }

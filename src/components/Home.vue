@@ -1,5 +1,10 @@
 <template>
   <div class="hello">
+
+      <router-link :to="{ name: 'notesmgmnt' }">
+         Notes management
+      </router-link>
+
       <div class="config-details">          
         <config-server  v-for="server in servers" 
         v-bind:key="server.id" 
@@ -8,14 +13,8 @@
         @openConnection="openConnection"></config-server>
       </div>
 
-      <!-- <router-link v-on:click.native="setSection('Servers / ' + server.name)" :to="{ name: 'server', params: { server } }">
-         Connect
-      </router-link>     -->
-
   </div>
 </template>
-
-
 
 <script>
 import { mapGetters } from "vuex";
