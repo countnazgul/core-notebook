@@ -108,8 +108,8 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    addNote: async function ({ commit }, { serverId, appId }) {
-      let n = { id: uuid(), serverId: serverId, appId: appId, code: '//** Expression\n', title: 'Expression', expanded: true }
+    addNote: async function ({ commit }, { serverId, appId, appName }) {
+      let n = { id: uuid(), serverId: serverId, appId: appId, appName: appName, code: '//** Expression\n', title: 'Expression', expanded: true }
       commit('ADD_NOTE', n)
       return n
     },
@@ -142,7 +142,7 @@ export default new Vuex.Store({
       try {
         let global = await session.open()
         let docs = await global.getDocList()
-        console.log(docs)
+        // console.log(docs)
         commit('SET_ENIGMA_INSTANCE', { global: global, session: session })
         return docs
       } catch (e) {

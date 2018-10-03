@@ -47,7 +47,7 @@
 
       <md-app-content>
         <div v-if="liveDoc.id" >           
-          <Note v-for="note in notes"  v-bind:key="note.id" :note="note" :liveDoc="liveDoc"></Note>
+          <Note v-for="note in notes"  v-bind:key="note.id" :note="note" :liveDoc="liveDoc" :liveDocName="liveDocName"></Note>
 
           <md-button v-on:click="addNote" class="md-fab md-primary md-fab-bottom-right" title="Add Note">
             <md-icon>add</md-icon>
@@ -141,7 +141,8 @@ export default {
       let _this = this;
       let note = await _this.$store.dispatch("addNote", {
         serverId: _this.server.id,
-        appId: _this.liveDoc.id
+        appId: _this.liveDoc.id,
+        appName: _this.liveDocName
       });
     },
     // openConnection: async function() {

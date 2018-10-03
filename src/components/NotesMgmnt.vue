@@ -5,7 +5,7 @@
       <md-input v-model="searchString"></md-input>
     </md-field>
     
-    <note-detail v-for="note in filtered" v-bind:key="note.id" :note="note"></note-detail>
+    <note-detail v-for="note in filtered" v-bind:key="note.id" :note="note" :servers="servers"></note-detail>
   </div>
 </template>
 
@@ -26,7 +26,8 @@ export default {
   methods: {},
   computed: {
     ...mapGetters({
-      notes: "getNotes"
+      notes: "getNotes",
+      servers: "servers"
     }),
     filtered() {
       let _this = this;

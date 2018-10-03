@@ -76,7 +76,7 @@ import MonacoEditor from "vue-monaco";
 
 export default {
   name: "Note",
-  props: ["note", "liveDoc"],
+  props: ["note", "liveDoc", "liveDocName"],
   components: {
     MonacoEditor
   },
