@@ -94,7 +94,7 @@ export default {
       _this.label = "Connecting";
       let docs = await _this.$store.dispatch("openConnection", _this.server);
 
-      if (docs == false) {
+      if (docs == true) {
         _this.connecting = false;
         _this.label = "Connect";
         _this.snackbar.showSnackbar = true;
